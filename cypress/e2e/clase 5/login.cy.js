@@ -12,10 +12,19 @@ describe("login",()=>{
 });
 
     it('succesful login',()=>{
-        cy.get('[data-test="username"]').should('be.visible').type('standard_user');
-    cy.get('[data-test="password"]').should('be.visible').and('have.attr','type','password').type('secret_sauce');
+        cy.fixture('login',login=>{
+            login.forEach(data=>{
+                if(data.site=="saucedemo"){
+                    if(data.type=="valid"){
+  cy.get('[data-test="username"]').should('be.visible').type(data.user);
+    cy.get('[data-test="password"]').should('be.visible').and('have.attr','type','password').type(data.password);
     cy.get('[data-test="login-button"]').click();
     cy.url().should('include','/inventory.html');
+                    }
+                }
+            });
+        });
+      
     });
 
     it('missing credentials',()=>{
@@ -24,17 +33,35 @@ describe("login",()=>{
     });
 
     it("missing password",()=>{
-        cy.get('[data-test="username"]').should('be.visible').type('standard_user');
+        cy.fixture('login',login=>{
+            login.forEach(data=>{
+                if(data.site=="saucedemo"){
+                    if(data.type=="valid"){
+
+        cy.get('[data-test="username"]').should('be.visible').type(data.user);
         cy.get('[data-test="login-button"]').click();
 cy.get('[data-test="error"]').should('be.visible').and('contain','Epic sadface: Password is required');
+                    }
+                }
+            });
+        });
         
     });
 
-    it.only("wrong password",()=>{
-        cy.get('[data-test="username"]').should('be.visible').type('standard_user');
-        cy.get('[data-test="password"]').should('be.visible').and('have.attr','type','password').type('secret_taco');
+    it("wrong password",()=>{
+         cy.fixture('login',login=>{
+            login.forEach(data=>{
+                if(data.site=="saucedemo"){
+                    if(data.type=="invalid"){
+          cy.get('[data-test="username"]').should('be.visible').type(data.user);
+        cy.get('[data-test="password"]').should('be.visible').and('have.attr','type','password').type(data.password);
         cy.get('[data-test="login-button"]').click();
         cy.get('[data-test="error"]').should('be.visible').and('contain','Epic sadface: Username and password do not match any user in this service');
+                    }
+                }
+            });
+        });
+      
     });
     
         

@@ -8,8 +8,11 @@ describe('Checkout', () => {
   })
 
   it('compra completa', () => {
-    cy.completeForm('Juan', 'Sapeeee','5000')
+    cy.fixture('checkout',checkout=>{
+      cy.completeForm(checkout.name, checkout.lastName, checkout.postalCode)
     cy.finalizarCompra()
+    })
+    
   })
 
   it('sin nombre muestra error', () => {
@@ -20,11 +23,14 @@ describe('Checkout', () => {
   })
 
   it('sin código postal muestra error', () => {
-    cy.get('[data-test="firstName"]').type('Naza')
-    cy.get('[data-test="lastName"]').type('Perez')
-    cy.get('[data-test="continue"]').click()
+  cy.fixture('checkout',checkout=>{
+      cy.completeForm(checkout.name, checkout.lastName,)
+        cy.get('[data-test="continue"]').click()
     cy.get('[data-test="error"]')
       .should('be.visible')
       .and('contain', 'Postal Code is required')
+    })
+
+
   })
 })

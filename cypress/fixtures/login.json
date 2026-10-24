@@ -1,0 +1,26 @@
+[
+    {
+    "user":"standard_user",
+    "password":"secret_sauce",
+     "site":"saucedemo",
+     "type":"valid"
+},   
+    {
+    "user":"standard_user",
+    "password":"secret_taco",
+     "site":"saucedemo",
+     "type":"invalid"
+},
+    {
+    "user":"admin@xacademy.com",
+    "password":"cypress123",
+     "site":"playground",
+     "type":"valid"
+},
+    {
+    "user":"invalid@user.com",
+    "password":"invalidPassword",
+     "site":"playground",
+     "type":"invalid"
+}
+]
