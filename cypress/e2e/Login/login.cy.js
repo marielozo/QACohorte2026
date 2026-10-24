@@ -11,16 +11,34 @@ describe("Login",()=>{
     });
 
     it("invalid credentials",()=>{
-        cy.get('[data-testid="login-email"]').type('invalid@user.com');
-        cy.get('[data-testid="login-password"]').type('invalidPassword');
+        cy.fixture('login',login=>{
+            login.forEach(data=>{
+                if(data.site=="playground"){
+                    if(data.type=="invalid"){
+   cy.get('[data-testid="login-email"]').type(data.user);
+        cy.get('[data-testid="login-password"]').type(data.password);
         cy.get('[data-testid="login-submit"]').click();
         cy.contains(/credenciales inválidas/i).should('be.visible');
+                    }
+                }
+            });
+        });
+     
     });
 
     it("valid credentials",()=>{
-        cy.get('[data-testid="login-email"]').type('admin@xacademy.com');
-        cy.get('[data-testid="login-password"]').type('cypress123');
+          cy.fixture('login',login=>{
+            login.forEach(data=>{
+                if(data.site=="playground"){
+                    if(data.type=="valid"){
+        cy.get('[data-testid="login-email"]').type(data.user);
+        cy.get('[data-testid="login-password"]').type(data.password);
         cy.get('[data-testid="login-submit"]').click();
         cy.contains('Inicio de sesión exitoso. Redirigiendo...').should('be.visible');
+                    }
+                }
+            });
+        });
+
     });
 });
